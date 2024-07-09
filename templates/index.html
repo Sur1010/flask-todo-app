@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Todo List</title>
+</head>
+<body>
+    <h1>Todo List</h1>
+    <ul>
+        {% for todo in todos %}
+            <li>
+                <input type="checkbox" name="done" {% if todo.status == 'done' %}checked{% endif %} onchange="this.form.submit()">
+                <span {% if todo.status == 'done' %}style="text-decoration: line-through"{% endif %}>{{ todo.text }}</span>
+                <span>Status: {{ todo.status }}</span>
+                <a href="{{ url_for('edit', id=todo.id) }}">edit</a>
+                <a href="{{ url_for('delete', id=todo.id) }}">delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <form action="{{ url_for('add_todo') }}" method="post">
+        <input type="text" name="todo">
+        <select name="status">
+            <option value="todo" selected>To Do</option>
+            <option value="in_progress">In Progress</option>
+            <option value="done">Done</option>
+        </select>
+        <button type="submit">Add</button>
+    </form>
+</body>
+</html>
